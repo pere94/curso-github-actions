@@ -3,7 +3,16 @@ run-name: ¡Estoy aprendiendo GitHub Actions!
 on: [push]
 
 #--------------------------------------------------------------------------------------------
-# Para que se ejecute en la rama main y en las ramas que empiecen con release
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa en respuesta a eventos de push en la rama `main` y en las ramas
+# que comienzan con `release`. Está configurado para ejecutarse cuando se realicen cambios en los
+# archivos especificados en las rutas.
+# 
+# Configuración de activación:
+# - `push`:
+#   - Ramas: `main`, `release/**`
+#   - Rutas de archivos: `src/**`, `.github/workflows/hola-mundo.yml`
+#--------------------------------------------------------------------------------------------
 # on:
 #   push:
 #     branches:
@@ -13,21 +22,45 @@ on: [push]
 #       - 'src/**'
 #       - '.github/workflows/hola-mundo.yml'
 #--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
 
 #--------------------------------------------------------------------------------------------
-# Para que se ejecute en un pull request en la rama release
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa en respuesta a eventos relacionados con pull requests en la rama `release`.
+# Está configurado para ejecutarse cuando se abren, sincronizan, reabren, cierran, etiquetan o desetiquetan pull requests.
+# También se activará cuando los cambios afecten los archivos especificados en las rutas.
+# 
+# Configuración de activación:
+# - `pull_request`:
+#   - Tipos de eventos (opcionales): `opened`, `synchronize`, `reopened`, `closed`, `labeled`, `unlabeled`
+#   - Ramas: `release/**`
+#   - Rutas de archivos: `src/**`, `.github/workflows/hola-mundo.yml`
+#--------------------------------------------------------------------------------------------
 # on: 
 #   pull_request:
-#     types: [opened, synchronize, reopened, closed, labeled, unlabeled] (opcinal)
+#     types: [opened, synchronize, reopened, closed, labeled, unlabeled] (opcional)
 #     branches:
 #       - 'release/**'
 #     paths:
 #       - 'src/**'
 #       - '.github/workflows/hola-mundo.yml'
 #--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
 
 #--------------------------------------------------------------------------------------------
-# Para que se ejecute en un issue en la rama release y en los eventos de issues
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa en respuesta a eventos relacionados con issues en la rama `release`.
+# Está configurado para ejecutarse cuando se crean, editan, eliminan, cierran o reabren issues.
+# También se activará cuando los cambios afecten los archivos especificados en las rutas.
+# 
+# Configuración de activación:
+# - `issues`:
+#   - Tipos de eventos: `opened`, `edited`, `deleted`, `closed`, `reopened`
+#   - Ramas: `release/**`
+#   - Rutas de archivos: `src/**`, `.github/workflows/hola-mundo.yml`
+#--------------------------------------------------------------------------------------------
 # on:
 #   issues:
 #     types: [opened, edited, deleted, closed, reopened]
@@ -37,9 +70,23 @@ on: [push]
 #       - 'src/**'
 #       - '.github/workflows/hola-mundo.yml'
 #--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
 
 #--------------------------------------------------------------------------------------------
-# Para que se ejecute en un comentario en un issue en la rama release y en los eventos de issues
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa en respuesta a comentarios en issues y pull requests en la rama
+# `release`. Está configurado para ejecutarse cuando se crean, editan o eliminan comentarios en issues.
+# También se activa cuando se realizan cambios en los archivos especificados en las rutas.
+# 
+# Configuración de activación:
+# - `issue_comment`:
+#   - Tipos de eventos: `created`, `edited`, `deleted`
+#   - Ramas: `release/**`
+#   - Rutas de archivos: `src/**`, `.github/workflows/hola-mundo.yml`
+# 
+# El trabajo `pr_commented` solo se ejecutará si el evento es un comentario en un pull request.
+#--------------------------------------------------------------------------------------------
 # on: 
 #   issue_comment:
 #     types: [created, edited, deleted]
@@ -54,6 +101,74 @@ on: [push]
 #   pr_commented:
 #     name: PR Comment
 #     if: ${{ github.event.issue.pull_request }}
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
+
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa manualmente mediante el evento `workflow_dispatch`. Está
+# diseñado para ejecutarse en la rama `release` y en los eventos de issues. Además, permite
+# al usuario seleccionar un nivel de alerta a través de un parámetro de entrada llamado `alerta`.
+#
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       alerta:
+#         description: 'nivel de alerta'
+#         required: true
+#         default: 'medio'
+#         type: choice
+#         options:
+#           - bajo
+#           - medio
+#           - alto
+#           - critico
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+# Este bloque de configuración permite que el flujo de trabajo sea disparado manualmente
+# desde la interfaz de GitHub. Puedes proporcionar entradas (inputs) cuando inicias
+# el flujo de trabajo manualmente.
+# 
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       tags:
+#         description: 'Opcional'
+#         required: false
+#         type: boolean
+#       environment:
+#         description: 'Objetivo'
+#         required: true
+#         type: string
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+# Este flujo de trabajo se activa automáticamente en un horario específico según la expresión cron.
+# Está configurado para ejecutarse diariamente a medianoche (00:00) UTC.
+# 
+# Configuración de activación:
+# - `schedule`:
+#   - Expresión cron: `'0 0 * * *'` (ejecución diaria a las 00:00 UTC)
+#
+# La expresión cron se compone de cinco campos separados por espacios: * * * * *
+# Minuto: (0 - 59)
+# Hora: (0 - 23)
+# Día del mes: (1 - 31)
+# Mes: (1 - 12)
+# Día de la semana: (0 - 6) (Domingo a Sábado)
+#
+# Example: '30 5,17 * * *' (Ejecución todos los dia del año a las 5:30 y 17:30)
+#--------------------------------------------------------------------------------------------
+# on:
+#   schedule:
+#     - cron: '0 0 * * *'
+#--------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------
 
 jobs:
