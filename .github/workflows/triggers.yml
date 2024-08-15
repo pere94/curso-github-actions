@@ -47,7 +47,7 @@ jobs:
         run: echo "LANGUAGE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
 
       - name: Correr script
-        run: run src/main.js
+        run: node src/main.js
 
   hola-mundo:
     if: ${{ github.event_name != 'workflow_dispatch' }}
