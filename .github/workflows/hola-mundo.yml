@@ -1,6 +1,61 @@
 name: Aprendiendo Github Actions
 run-name: ¡Estoy aprendiendo GitHub Actions!
 on: [push]
+
+#--------------------------------------------------------------------------------------------
+# Para que se ejecute en la rama main y en las ramas que empiecen con release
+# on:
+#   push:
+#     branches:
+#       - main
+#       - 'release/**'
+#     paths:
+#       - 'src/**'
+#       - '.github/workflows/hola-mundo.yml'
+#--------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------
+# Para que se ejecute en un pull request en la rama release
+# on: 
+#   pull_request:
+#     types: [opened, synchronize, reopened, closed, labeled, unlabeled] (opcinal)
+#     branches:
+#       - 'release/**'
+#     paths:
+#       - 'src/**'
+#       - '.github/workflows/hola-mundo.yml'
+#--------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------
+# Para que se ejecute en un issue en la rama release y en los eventos de issues
+# on:
+#   issues:
+#     types: [opened, edited, deleted, closed, reopened]
+#     branches:
+#       - 'release/**'
+#     paths:
+#       - 'src/**'
+#       - '.github/workflows/hola-mundo.yml'
+#--------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------
+# Para que se ejecute en un comentario en un issue en la rama release y en los eventos de issues
+# on: 
+#   issue_comment:
+#     types: [created, edited, deleted]
+#     branches:
+#       - 'release/**'
+#     paths:
+#       - 'src/**'
+#       - '.github/workflows/hola-mundo.yml'
+
+# on: issue_comment
+# jobs:
+#   pr_commented:
+#     name: PR Comment
+#     if: ${{ github.event.issue.pull_request }}
+#--------------------------------------------------------------------------------------------
+
 jobs:
 
   hola-mundo-job:
